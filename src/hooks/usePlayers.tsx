@@ -30,11 +30,13 @@ export const usePlayers = (): PlayersManager => {
 
     useEffect(() => {
         setSortedPlayers(
-            [...players].sort((a, b) => {
-                if (b.points !== a.points) return b.points - a.points
-                if (b.wins !== a.wins) return b.wins - a.wins
-                return b.scoreDiff - a.scoreDiff
-            })
+            Array.isArray(players)
+                ? [...players].sort((a, b) => {
+                      if (b.points !== a.points) return b.points - a.points
+                      if (b.wins !== a.wins) return b.wins - a.wins
+                      return b.scoreDiff - a.scoreDiff
+                  })
+                : []
         )
     }, [players])
 
