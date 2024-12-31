@@ -105,11 +105,11 @@ export const MatchDialog: FC<MatchDialogProps> = ({ open, setOpen }) => {
                         />
                         <Typography fontSize={'3rem'}>{player1Score}</Typography>
                         <Stack direction={'row'}>
-                            <IconButton onClick={() => setPlayer1Score((prev) => prev + 1)}>
-                                <Add />
-                            </IconButton>
                             <IconButton onClick={() => setPlayer1Score((prev) => prev - 1)}>
                                 <Remove />
+                            </IconButton>
+                            <IconButton onClick={() => setPlayer1Score((prev) => prev + 1)}>
+                                <Add />
                             </IconButton>
                         </Stack>
                     </Stack>
@@ -132,11 +132,11 @@ export const MatchDialog: FC<MatchDialogProps> = ({ open, setOpen }) => {
                         />
                         <Typography fontSize={'3rem'}>{player2Score}</Typography>
                         <Stack direction={'row'}>
-                            <IconButton onClick={() => setPlayer2Score((prev) => prev + 1)}>
-                                <Add />
-                            </IconButton>
                             <IconButton onClick={() => setPlayer2Score((prev) => prev - 1)}>
                                 <Remove />
+                            </IconButton>
+                            <IconButton onClick={() => setPlayer2Score((prev) => prev + 1)}>
+                                <Add />
                             </IconButton>
                         </Stack>
                     </Stack>
