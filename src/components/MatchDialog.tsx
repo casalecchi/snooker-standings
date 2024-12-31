@@ -27,6 +27,15 @@ export const MatchDialog: FC<MatchDialogProps> = ({ open, setOpen }) => {
     const [player2Score, setPlayer2Score] = useState(0)
     const [player2, setPlayer2] = useState<Player>()
 
+    const handleClose = () => {
+        setPlayer1(undefined)
+        setPlayer2(undefined)
+        setPlayer1Score(0)
+        setPlayer2Score(0)
+
+        setOpen(false)
+    }
+
     const handleClick = () => {
         if (!player1 || !player2) return
 
@@ -54,26 +63,12 @@ export const MatchDialog: FC<MatchDialogProps> = ({ open, setOpen }) => {
         updatePlayer(updatedPlayer1)
         updatePlayer(updatedPlayer2)
 
-        setPlayer1(undefined)
-        setPlayer2(undefined)
-        setPlayer1Score(0)
-        setPlayer2Score(0)
-
-        setOpen(false)
+        handleClose()
     }
 
     return (
-        <Dialog
-            open={open}
-            onClose={() => setOpen(false)}
-            fullWidth
-            fullScreen={mobile}
-            maxWidth={'lg'}
-        >
-            <IconButton
-                onClick={() => setOpen(false)}
-                sx={{ position: 'absolute', right: 10, top: 10 }}
-            >
+        <Dialog open={open} onClose={handleClose} fullWidth fullScreen={mobile} maxWidth={'lg'}>
+            <IconButton onClick={handleClose} sx={{ position: 'absolute', right: 10, top: 10 }}>
                 <Close />
             </IconButton>
             <Stack
