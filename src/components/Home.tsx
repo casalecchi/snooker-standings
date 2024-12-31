@@ -1,12 +1,10 @@
 import { Button, List, ListItem, Stack, TextField } from '@mui/material'
 import { FC, useState } from 'react'
 import { useDataContext } from '../context/DataContext'
-import { useDeviceContext } from '../context/DeviceContext'
 import { MatchDialog } from './MatchDialog'
 import { Row } from './Row'
 
 export const Home: FC = () => {
-    const { mobile } = useDeviceContext()
     const { playersManager } = useDataContext()
     const { addPlayer, sortedPlayers } = playersManager
     const [playerName, setPlayerName] = useState('')

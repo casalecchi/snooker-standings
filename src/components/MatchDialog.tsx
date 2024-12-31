@@ -33,11 +33,7 @@ export const MatchDialog: FC<MatchDialogProps> = ({ open, setOpen }) => {
         const scoreDiff = player1Score - player2Score
         const winner = scoreDiff > 0 ? 1 : 2
 
-        const calculateUpdatedPlayer = (
-            player: Player,
-            isWinner: boolean,
-            diff: number
-        ): Player => ({
+        const calculateUpdatedPlayer = (player: Player, isWinner: boolean): Player => ({
             ...player,
             points: (player.points ?? 0) + (isWinner ? 2 : 1),
             wins: isWinner ? (player.wins ?? 0) + 1 : (player.wins ?? 0),
@@ -52,8 +48,8 @@ export const MatchDialog: FC<MatchDialogProps> = ({ open, setOpen }) => {
                       : -scoreDiff),
         })
 
-        const updatedPlayer1 = calculateUpdatedPlayer(player1, winner === 1, scoreDiff)
-        const updatedPlayer2 = calculateUpdatedPlayer(player2, winner === 2, scoreDiff)
+        const updatedPlayer1 = calculateUpdatedPlayer(player1, winner === 1)
+        const updatedPlayer2 = calculateUpdatedPlayer(player2, winner === 2)
 
         updatePlayer(updatedPlayer1)
         updatePlayer(updatedPlayer2)
