@@ -1,14 +1,14 @@
-import { Button, Dialog, IconButton, List, ListItem, Stack, TextField } from '@mui/material'
-import { useDeviceContext } from '../context/DeviceContext'
-import { useDataContext } from '../context/DataContext'
-import { Close } from '@mui/icons-material'
+import { Button, List, ListItem, Stack, TextField } from '@mui/material'
 import { FC, useState } from 'react'
+import { useDataContext } from '../context/DataContext'
+import { useDeviceContext } from '../context/DeviceContext'
+import { MatchDialog } from './MatchDialog'
 import { Row } from './Row'
 
 export const Home: FC = () => {
     const { mobile } = useDeviceContext()
     const { playersManager } = useDataContext()
-    const { addPlayer, players } = playersManager
+    const { addPlayer, sortedPlayers } = playersManager
     const [playerName, setPlayerName] = useState('')
     const [openDialog, setOpenDialog] = useState(false)
 
@@ -41,7 +41,7 @@ export const Home: FC = () => {
                     {'Adicionar'.toUpperCase()}
                 </Button>
             </Stack>
-            {players.length > 0 && (
+            {sortedPlayers.length > 0 && (
                 <>
                     <List
                         sx={{
@@ -51,7 +51,7 @@ export const Home: FC = () => {
                             height: '60vh',
                         }}
                     >
-                        {players.map((player, index) => (
+                        {sortedPlayers.map((player, index) => (
                             <ListItem
                                 key={player.id}
                                 divider
@@ -66,20 +66,7 @@ export const Home: FC = () => {
                     <Button variant={'contained'} onClick={() => setOpenDialog(true)}>
                         {'Adicionar partida'.toUpperCase()}
                     </Button>
-                    <Dialog
-                        open={openDialog}
-                        onClose={() => setOpenDialog(false)}
-                        fullWidth
-                        fullScreen={mobile}
-                        maxWidth={'lg'}
-                    >
-                        <IconButton
-                            onClick={() => setOpenDialog(false)}
-                            sx={{ position: 'absolute', right: 10, top: 10 }}
-                        >
-                            <Close />
-                        </IconButton>
-                    </Dialog>
+                    <MatchDialog open={openDialog} setOpen={setOpenDialog} />
                 </>
             )}
         </Stack>

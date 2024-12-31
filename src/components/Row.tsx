@@ -19,14 +19,15 @@ export const Row: FC<RowProps> = ({ index, player }) => {
             direction={'row'}
             alignItems={'center'}
             justifyContent={'space-between'}
-            p={2}
+            px={1}
+            py={2}
             width={'100%'}
         >
-            <Stack direction={'row'} spacing={2}>
+            <Stack alignItems={'center'} direction={'row'} spacing={2}>
                 <Typography fontSize={'1.5rem'}>{`${index + 1}°`}</Typography>
                 <Typography fontSize={'1.5rem'}>{player.name}</Typography>
             </Stack>
-            <Stack alignItems={'center'} direction={'row'} spacing={4}>
+            <Stack alignItems={'center'} direction={'row'} spacing={2}>
                 <Typography fontSize={'1.2rem'}>{`${player.points} PTS`}</Typography>
                 <Typography fontSize={'1.2rem'}>{`${player.wins}V`}</Typography>
                 <Typography fontSize={'1.2rem'}>{`${player.scoreDiff} BOLAS`}</Typography>

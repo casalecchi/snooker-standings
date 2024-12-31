@@ -3,8 +3,9 @@ import { Player } from '../models/player'
 
 export interface PlayersManager {
     addPlayer: (player: Player) => void
-    players: Player[]
+    sortedPlayers: Player[]
     removePlayer: (player: Player) => void
+    updatePlayer: (player: Player) => void
 }
 
 export const usePlayers = (): PlayersManager => {
@@ -17,6 +18,10 @@ export const usePlayers = (): PlayersManager => {
 
     const removePlayer = (player: Player) => {
         setPlayers((prev) => prev.filter((p) => p.id != player.id))
+    }
+
+    const updatePlayer = (player: Player) => {
+        setPlayers((prev) => prev.map((p) => (p.id == player.id ? player : p)))
     }
 
     useEffect(() => {
@@ -37,5 +42,5 @@ export const usePlayers = (): PlayersManager => {
         if (sortedPlayers.length) localStorage.setItem('players', JSON.stringify(sortedPlayers))
     }, [sortedPlayers])
 
-    return { addPlayer, players, removePlayer }
+    return { addPlayer, sortedPlayers, removePlayer, updatePlayer }
 }
