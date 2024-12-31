@@ -25,12 +25,12 @@ export const usePlayers = (): PlayersManager => {
     }
 
     useEffect(() => {
-        setPlayers(JSON.parse(localStorage.getItem('players') ?? '{}'))
+        setPlayers(JSON.parse(localStorage.getItem('players') ?? '[]'))
     }, [])
 
     useEffect(() => {
         setSortedPlayers(
-            players.slice().sort((a, b) => {
+            players.toSorted((a, b) => {
                 if (b.points !== a.points) return b.points - a.points
                 if (b.wins !== a.wins) return b.wins - a.wins
                 return b.scoreDiff - a.scoreDiff
