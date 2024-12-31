@@ -1,82 +1,87 @@
-import { Button, List, ListItem, ListSubheader, Stack, TextField, Typography } from '@mui/material'
+import { Button, Dialog, IconButton, List, ListItem, Stack, TextField } from '@mui/material'
+import { useDeviceContext } from '../context/DeviceContext'
+import { useDataContext } from '../context/DataContext'
+import { Close } from '@mui/icons-material'
 import { FC, useState } from 'react'
-import { Player } from '../models/player'
+import { Row } from './Row'
 
 export const Home: FC = () => {
+    const { mobile } = useDeviceContext()
+    const { playersManager } = useDataContext()
+    const { addPlayer, players } = playersManager
     const [playerName, setPlayerName] = useState('')
-    const [players, setPlayers] = useState<Player[]>([])
+    const [openDialog, setOpenDialog] = useState(false)
+
+    const handleAdd = () => {
+        addPlayer({
+            id: crypto.randomUUID(),
+            name: playerName,
+            points: 0,
+            wins: 0,
+            scoreDiff: 0,
+        })
+        setPlayerName('')
+    }
 
     return (
         <Stack alignItems={'center'}>
             <Stack direction={'row'} p={2} spacing={2} width={'100%'} maxWidth={'60rem'}>
                 <TextField
+                    value={playerName}
                     onChange={(event) => setPlayerName(event.target.value)}
                     placeholder={'Adcione um jogador'}
                     sx={{ width: '70%' }}
                 />
                 <Button
-                    onClick={() =>
-                        setPlayers((prev) => [
-                            ...prev,
-                            {
-                                id: crypto.randomUUID(),
-                                name: playerName,
-                                points: 0,
-                                wins: 0,
-                                scoreDiff: 0,
-                            },
-                        ])
-                    }
+                    disabled={!playerName.trim()}
+                    onClick={handleAdd}
                     variant={'contained'}
                     sx={{ width: '30%' }}
                 >
                     {'Adicionar'.toUpperCase()}
                 </Button>
             </Stack>
-            <List
-                sx={{
-                    maxWidth: '60rem',
-                    width: '100%',
-                    overflowY: 'auto',
-                    height: '60vh',
-                }}
-            >
-                <ListSubheader>
-                    <Stack
-                        direction={'row'}
-                        spacing={4}
-                        alignItems={'center'}
-                        justifyContent={'end'}
+            {players.length > 0 && (
+                <>
+                    <List
+                        sx={{
+                            maxWidth: '60rem',
+                            width: '100%',
+                            overflowY: 'auto',
+                            height: '60vh',
+                        }}
                     >
-                        <Typography>PTS</Typography>
-                        <Typography>W</Typography>
-                        <Typography>DIFF</Typography>
-                    </Stack>
-                </ListSubheader>
-                {players
-                    .sort((a, b) => (a.points > b.points ? 1 : -1))
-                    .map((player, index) => (
-                        <ListItem key={player.id} divider>
-                            <Stack
-                                direction={'row'}
-                                alignItems={'center'}
-                                justifyContent={'space-between'}
-                                p={2}
-                                width={'100%'}
+                        {players.map((player, index) => (
+                            <ListItem
+                                key={player.id}
+                                divider
+                                sx={{
+                                    backgroundColor: index == 0 ? 'primary.dark' : 'transparent',
+                                }}
                             >
-                                <Stack direction={'row'} spacing={2}>
-                                    <Typography fontSize={'1.5rem'}>{`${index + 1}°`}</Typography>
-                                    <Typography fontSize={'1.5rem'}>{player.name}</Typography>
-                                </Stack>
-                                <Stack direction={'row'} spacing={4}>
-                                    <Typography fontSize={'1.2rem'}>{player.points}</Typography>
-                                    <Typography fontSize={'1.2rem'}>{player.wins}</Typography>
-                                    <Typography fontSize={'1.2rem'}>{player.scoreDiff}</Typography>
-                                </Stack>
-                            </Stack>
-                        </ListItem>
-                    ))}
-            </List>
+                                <Row index={index} player={player} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    <Button variant={'contained'} onClick={() => setOpenDialog(true)}>
+                        {'Adicionar partida'.toUpperCase()}
+                    </Button>
+                    <Dialog
+                        open={openDialog}
+                        onClose={() => setOpenDialog(false)}
+                        fullWidth
+                        fullScreen={mobile}
+                        maxWidth={'lg'}
+                    >
+                        <IconButton
+                            onClick={() => setOpenDialog(false)}
+                            sx={{ position: 'absolute', right: 10, top: 10 }}
+                        >
+                            <Close />
+                        </IconButton>
+                    </Dialog>
+                </>
+            )}
         </Stack>
     )
 }
